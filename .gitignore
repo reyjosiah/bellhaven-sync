@@ -1,0 +1,7 @@
+.venv/
+private/
+__pycache__/
+.pytest_cache/
+*.zip
+.env
+*.sqlite3*

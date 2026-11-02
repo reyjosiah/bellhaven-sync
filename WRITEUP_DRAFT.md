@@ -1,0 +1,11 @@
+# Submission writeup draft — review and finalize after the CRM review
+
+I used a local Python pipeline and a small Flask review app to reconcile Bellhaven's published communities with the assessment CRM. The crawler follows pagination and community links from the homepage as well as the directory, which matters because the new Findlay location is linked from the homepage. It captures source text, URLs, and retrieval timestamps. The matcher normalizes street abbreviations and care terminology while retaining original evidence. Unique physical-address matches support corrections; conflicting addresses, PO boxes, and fuzzy names require reviewer judgment. Duplicate proposals preserve the most appropriate surviving record and flag the losing copy rather than merging or deleting it. Absence from the website is treated as a reason for investigation, not proof of a sale or closure.
+
+Only an explicit approval writes through the API. The app checks current CRM values before applying changes and verifies the result afterward. For an ownership change with both revenue history and outstanding receivables, it creates a zero-balance replacement and changes only the old account's CHOW link. SQLite persists decisions and operation checkpoints. Stable proposal fingerprints prevent unchanged decisions from returning; a unique creation marker helps reconcile a timeout without blindly creating another account.
+
+I used Codex to generate and revise the implementation, develop tests, and inspect the fictional website and documented API. The pipeline itself makes no LLM calls. Automated tests cover matching, crawl completeness, billing branches, approval controls, stale records, persistent decisions, and interrupted writes. The live read-only scan collected 35 locations and 121 accounts. Reviewer-approved CRM writes and the final end state must be verified before finalizing this writeup.
+
+For production, I would add stronger concurrency controls if supported by the API, managed scheduling and alerting, richer ownership evidence, schema migrations, and a more detailed manual-resolution workflow. I kept this version local and focused on explainable corrections and billing safety.
+
+Actual working time: fill in an honest estimate after completing the work. Do not submit this placeholder or claim unperformed review steps.
